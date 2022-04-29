@@ -1,0 +1,5 @@
+librosa~=0.9.1
+numpy~=1.21.6
+soundfile
+requests~=2.27.1
+sndfile
