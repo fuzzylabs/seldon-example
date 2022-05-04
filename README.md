@@ -126,10 +126,10 @@ pip install -r requirements.txt
 python httprequest.py
 ```
 
-This guide roughly follows the Seldon instructions for 
+The deployment part of this readme roughly follows the Seldon instructions for 
 [installing locally](https://docs.seldon.io/projects/seldon-core/en/latest/install/kind.html) and
 [deploying a model](https://docs.seldon.io/projects/seldon-core/en/latest/workflow/github-readme.html)
-so see those for more information.
+they're worth a read if you're looking for some more background.
 
 ## Installing Prometheus monitoring
 
@@ -175,3 +175,5 @@ Visit [http://localhost:9090/targets](http://localhost:9090/targets) to see Prom
 
 Go to the Graph section and search for `seldon_api_executor_client_requests_seconds_count` to see an example of a metric
 graph.
+
+For a list of possible metrics select the `metric explorer`. (The button to the left of execute)
