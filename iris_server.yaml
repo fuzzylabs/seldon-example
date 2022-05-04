@@ -6,9 +6,12 @@ metadata:
 spec:
   name: iris
   predictors:
-  - graph:
-      implementation: SKLEARN_SERVER
-      modelUri: gs://seldon-models/v1.14.0-dev/sklearn/iris
+  - componentSpecs:
+    - spec:
+        containers:
+        - name: classifier
+          image: iris-image
+    graph:
       name: classifier
     name: default
     replicas: 1
