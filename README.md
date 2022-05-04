@@ -130,3 +130,48 @@ This guide roughly follows the Seldon instructions for
 [installing locally](https://docs.seldon.io/projects/seldon-core/en/latest/install/kind.html) and
 [deploying a model](https://docs.seldon.io/projects/seldon-core/en/latest/workflow/github-readme.html)
 so see those for more information.
+
+## Installing Prometheus monitoring
+
+Install prometheus into our `seldon-system` namespace with helm:
+```shell
+helm upgrade --install prometheus kube-prometheus \
+    --version 6.8.3 \
+    --set fullnameOverride=seldon-monitoring \
+    --namespace seldon-system \
+    --repo https://charts.bitnami.com/bitnami
+
+kubectl rollout status -n seldon-system statefulsets/prometheus-seldon-monitoring-prometheus
+```
+
+Check the installation by running:
+```shell
+kubectl get pods -n seldon-system
+```
+
+You should see output like the following:
+```
+NAME                                             READY   STATUS    RESTARTS        AGE
+alertmanager-seldon-monitoring-alertmanager-0    2/2     Running   0               51s
+prometheus-kube-state-metrics-5ffff58b6b-tn6sq   1/1     Running   0               51s
+prometheus-node-exporter-jmpcv                   1/1     Running   0               51s
+prometheus-seldon-monitoring-prometheus-0        2/2     Running   0               51s
+seldon-controller-manager-b98fcbbf-wjkq4         1/1     Running   9 (6h27m ago)   10m15s
+seldon-monitoring-operator-588b4c9ccc-8vs6p      1/1     Running   0               51s
+```
+
+Apply the PodMonitor resource that allows the scraping of ports named `metrics`. This is configured in
+`seldon-podmonitor.yaml`.
+```shell
+kubectl apply -f seldon-podmonitor.yaml
+```
+
+You can now expose Prometheus to localhost with
+```shell
+kubectl port-forward -n seldon-system svc/seldon-monitoring-prometheus 9090:9090
+```
+
+Visit [http://localhost:9090/targets](http://localhost:9090/targets) to see Prometheus target UI.
+
+Go to the Graph section and search for `seldon_api_executor_client_requests_seconds_count` to see an example of a metric
+graph.
