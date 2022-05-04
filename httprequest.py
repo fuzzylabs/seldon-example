@@ -8,16 +8,15 @@ def base64_from_file(path: str) -> str:
 
 
 response = requests.post(
-    "http://localhost:8080/seldon/seldon/audio-model/api/v1.0/predictions",
+    "http://localhost:8080/seldon/seldon/iris-model/api/v1.0/predictions",
     headers={"Content-Type": "application/json"},
     json={
         "data": {
             "ndarray": [
-                base64_from_file("hello.wav")
+                [1, 2, 3, 4],
             ]
         }
     },
 )
 
-# print(response.json())
-# print(["Hello" if float(i[0]) < 0.5 else "Goodbye" for i in response.json()])
+print(response.json())
