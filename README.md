@@ -130,3 +130,10 @@ This guide roughly follows the Seldon instructions for
 [installing locally](https://docs.seldon.io/projects/seldon-core/en/latest/install/kind.html) and
 [deploying a model](https://docs.seldon.io/projects/seldon-core/en/latest/workflow/github-readme.html)
 so see those for more information.
+
+## Clearing down the model
+Run the following to clear down the kubernetes setup:
+```shell
+kubectl delete -f iris_server.yaml
+kubectl delete -f istio_gateway.yaml
+```
